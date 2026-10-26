@@ -35,8 +35,10 @@ build-time environment variables, and attaches the user's Cognito ID token as th
 | `VITE_USER_POOL_CLIENT_ID` | `UserPoolClientId` |
 | `VITE_API_URL` | `ApiUrl` |
 
-On Amplify Hosting these are set on the Amplify app by the backend SAM template. For local development,
-copy `.env.example` to `.env.local` and fill in the stack outputs.
+On Amplify Hosting these are Amplify **secrets**, not plain environment variables: the backend SAM template
+stores them as SSM parameters under `/amplify/{appId}/{branch}/`, Amplify exposes them to the build as the
+JSON `$secrets` variable, and [`amplify.yml`](amplify.yml) writes them to `.env.production` before
+`vite build`. For local development, copy `.env.example` to `.env.local` and fill in the stack outputs.
 
 ## Local development
 

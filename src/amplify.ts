@@ -14,7 +14,7 @@ if (missing.length > 0) {
 
 /**
  * Registers the Cognito User Pool and the tasks REST API with Amplify. All values come from
- * build-time environment variables, set by the SAM-defined Amplify app (or .env.local locally).
+ * build-time environment variables, from the SAM-defined Amplify secrets (or .env.local locally).
  */
 export function configureAmplify() {
   Amplify.configure(

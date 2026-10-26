@@ -4,6 +4,14 @@ frontend:
     preBuild:
       commands:
         - npm ci
+        # Amplify passes the app's secrets (SSM parameters under /amplify/{appId}/{branch}/,
+        # created by the backend SAM stack) as a JSON object in $secrets. Vite reads
+        # .env.production during `vite build`.
+        - >-
+          node -e "const s = JSON.parse(process.env.secrets || '{}');
+          const lines = Object.entries(s).filter(([k]) => k.startsWith('VITE_')).map(([k, v]) => k + '=' + v);
+          require('fs').writeFileSync('.env.production', lines.join('\n') + '\n');
+          console.log('Wrote ' + lines.length + ' VITE_ secrets to .env.production')"
     build:
       commands:
         - npm run build
